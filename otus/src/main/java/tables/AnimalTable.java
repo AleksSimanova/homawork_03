@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import db.MySQLConnector;
 import objects.Animal;
+import zoo.data.AnimalData;
+import zoo.data.ColorData;
 
 
 public class AnimalTable  extends AbsTable{
@@ -68,21 +70,41 @@ public class AnimalTable  extends AbsTable{
         }return animals;
     }
     
-//------- измениние типа , по номеру id
-    public void update( String newTypeAnimal, int id){
-        
-        String sqlUpDateTable=String.format("UPDATE %s SET type = %s WHERE id=",tableName,newTypeAnimal, id);
+//------- измениние данных животного 
+    public void update( Animal animal){
+        String sqlUpDateTable=String.format("UPDATE %s SET"+ 
+                                            "type='%s',name='%s',color='%s',weight='%d',age='%d' WHERE id=%d", 
+                                            tableName,
+                                            animal.getType(),
+                                            animal.getName(),
+                                            animal.getColor(),
+                                            animal.getWeight(),
+                                            animal.getAge(),
+                                            animal.getId());
         db=new MySQLConnector();
         db.executeRequest(sqlUpDateTable);
+        db.close();
+    
+    }
+
+//--------- сортировка по типу животного 
+    public ArrayList<Animal> selectAnimalType(String animalData){
+        String sqlQuery=String.format("SELECT* FROM %s WHERE type='%s' ", tableName, animalData);
+        return selectByQuery(sqlQuery);
+
     }
 
 
-//=------- удаление таблицы
-    public void delete(){
+//=------- удаление  из таблицы
+    public void delete(long id){
         db=new MySQLConnector();
         String sqlQuery=String.format("DROP TABLE %s;", tableName);
         db.executeRequest(sqlQuery);
         db.close();
+    }
+//--------- ID
+    public ArrayList<Animal>selectID(){
+        return selectByQuery(String.format("SELECT id FROM %",tableName));
     }
 }
 
