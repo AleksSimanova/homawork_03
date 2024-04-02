@@ -6,16 +6,13 @@ import tables.AnimalTable;
 import zoo.animal.AbsAnimal;
 import zoo.animal.exceptons.AnimalNotSupported;
 import zoo.data.AnimalData;
-import zoo.data.ColorData;
 import zoo.data.TeamsData;
 import zoo.factory.AnimalFactory;
 import zoo.utilit.EnamConvecters;
 import zoo.utilit.Validators;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.xml.validation.Validator;
 
 public class Main{
     public static void main (String args[]) throws AnimalNotSupported{
@@ -80,6 +77,11 @@ public class Main{
                         };
                         break;
                     }
+                
+                case EXIT:{
+                        System.exit(0);
+                    }
+
                 case ANIMALFILTER:
                     {
                         String filterTypeAnimal;
@@ -98,13 +100,14 @@ public class Main{
                             break;
                     }
                     
+
                 case UPDATE:
                     {   
                         int idUpdateNew;
                         while (true) {
-                            System.out.println("Введите номер id, целое положительное число");
+                            System.out.println(String.format("Введите номер id, целое положительное число не больше чем %d", animals.size()));
                             String idUpdate=sc.next();
-                            if (validators.isAgeNimbers(idUpdate)&&Integer.parseInt(idUpdate)>=0){
+                            if (validators.isAgeNimbers(idUpdate)&&Integer.parseInt(idUpdate)>0 &&Integer.parseInt(idUpdate)<=animals.size()){
                                 idUpdateNew= Integer.parseInt(idUpdate);
                                 break;
                             }
@@ -119,28 +122,35 @@ public class Main{
                             }
                             System.out.println("Введите имя буквами");
                         }
-                        AbsAnimal animalNewNAme= animals.get(idUpdateNew);
+                        AbsAnimal animalNewNAme= animals.get(idUpdateNew-1);
                         animalNewNAme.setName(newName);
-                        Animal animal=new Animal(animalNewNAme.getTypa(),newName,animalNewNAme.getColorData(),animalNewNAme.getWeight(),animalNewNAme.getAge());
+                        Animal animal=new Animal(idUpdateNew,animalNewNAme.getType(),newName,animalNewNAme.getColorData(),animalNewNAme.getWeight(),animalNewNAme.getAge());
                         animalTable.update(animal);
+                        break;
                     }
-                case EXIT:{
-                    System.exit(0);
-                }
-                case DELETE:{
 
+                case DELETE:{
+                    long deleteID;
+                    int deleteListID;
+                    while (true) {
+                        System.out.println("Введите номер ID  который хотите удалить");
+                        String deleteIDStr=sc.next();
+                        if (validators.isAgeNimbers(deleteIDStr)&&Long.parseLong(deleteIDStr)>=0){
+                            deleteID= Long.parseLong(deleteIDStr);
+                            deleteListID=Integer.parseInt(deleteIDStr);
+                            break;
+                        }
+                        System.out.println("не корректрый id");
+                    }
+                    
+
+                    animalTable.delete(deleteID);
+                    animals.remove(deleteListID-1);
                 }
             }
         }
-        //animalTable.update(animalTable, 2);
-        // AnimalTable animalTable=new AnimalTable();
-                // ArrayList<Animal> animals=animalTable.selectAllAnimals();
-                //     if (animals.isEmpty()) {
-                //     animalTable.insert(new Animal(animalDB));
-                //     animals=animalTable.selectAllAnimals();
-                //     }
-                }
                 
+    }
 }
     
     

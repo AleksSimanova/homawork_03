@@ -72,7 +72,8 @@ public class AnimalTable  extends AbsTable{
     
 //------- измениние данных животного 
     public void update( Animal animal){
-        String sqlUpDateTable=String.format("UPDATE %s SET"+ 
+        db=new MySQLConnector();
+        String sqlQuery=String.format("UPDATE %s SET "+ 
                                             "type='%s',name='%s',color='%s',weight='%d',age='%d' WHERE id=%d", 
                                             tableName,
                                             animal.getType(),
@@ -81,8 +82,8 @@ public class AnimalTable  extends AbsTable{
                                             animal.getWeight(),
                                             animal.getAge(),
                                             animal.getId());
-        db=new MySQLConnector();
-        db.executeRequest(sqlUpDateTable);
+        
+        db.executeRequest(sqlQuery);
         db.close();
     
     }
@@ -103,7 +104,7 @@ public class AnimalTable  extends AbsTable{
 //=------- удаление  из таблицы
     public void delete(long id){
         db=new MySQLConnector();
-        String sqlQuery=String.format("DROP TABLE %s; WHERE id='%d", tableName, id);
+        String sqlQuery=String.format("DELETE FROM %s WHERE id= %d", tableName, id);
         db.executeRequest(sqlQuery);
         db.close();
     }

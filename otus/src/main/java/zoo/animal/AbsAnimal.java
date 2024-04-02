@@ -12,11 +12,11 @@ public  abstract class AbsAnimal {
     protected int age;
     protected int weight;
     protected ColorData color;
-    protected  String type;
 
     private EnamConvecters enamConvecters=new EnamConvecters();
     private Validators validators= new Validators(); 
 //---------------------------------------
+
     public void setName(Scanner sc){
         String name="";
         while (true) {
@@ -90,9 +90,8 @@ public  abstract class AbsAnimal {
     public int getWeight(){
         return weight;
     }
-    public String getTypa(){
-        return type;
-    }
+
+    public abstract String getType();
 //-----------------------------------
     public String  say(){
         return "Я говорю";
