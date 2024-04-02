@@ -3,6 +3,7 @@ package zoo.animal.pets;
 import zoo.animal.AbsAnimal;
 
 public class Dog extends AbsAnimal {
+    String type="Dog";
     @Override
     public String say(){
         return "Гав-Гав" ;

@@ -3,6 +3,7 @@ package zoo.animal.birds;
 import zoo.animal.AbsAnimal;
 
 public class Duck extends AbsAnimal implements IFlying {
+    String type ="Duck";
     @Override
     public String say(){
         return "Кря-кря";

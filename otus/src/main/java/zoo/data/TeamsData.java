@@ -4,5 +4,6 @@ public enum  TeamsData {
     LIST,
     ANIMALFILTER,
     UPDATE,
+    DELETE,
     EXIT;
 }

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import db.MySQLConnector;
 import objects.Animal;
-import zoo.data.AnimalData;
 import zoo.data.ColorData;
+
 
 
 public class AnimalTable  extends AbsTable{
@@ -27,7 +27,7 @@ public class AnimalTable  extends AbsTable{
         db= new MySQLConnector();
         String sqlQuery=String.format("INSERT INTO %s(type,name,color,weight,age)"+"VALUES('%s','%s','%s','%d','%d')",
                 tableName,
-                animal.getType(),animal.getName(),animal.getColor(),animal.getWeight(),animal.getWeight(),animal.getAge());
+                animal.getType(),animal.getName(),animal.getColor().name(),animal.getWeight(),animal.getWeight(),animal.getAge());
         db.executeRequest(sqlQuery);
         db.close();
     }
@@ -58,7 +58,7 @@ public class AnimalTable  extends AbsTable{
                     rs.getLong("id"),
                     rs.getString("type"),
                     rs.getString("name"),
-                    rs.getString("color"),
+                    ColorData.valueOf(rs.getString("color")) ,
                     rs.getInt("weight"),
                     rs.getInt("age")
                 ));
@@ -93,18 +93,20 @@ public class AnimalTable  extends AbsTable{
         return selectByQuery(sqlQuery);
 
     }
-
+//--------- ID
+    public void  exists (String id){
+        String sqlQuery=String.format("EXISTS( SELECT id FROM %s WHERE id=%s)", tableName,id);
+        db.executeRequest(sqlQuery);
+        db.close();
+    }
 
 //=------- удаление  из таблицы
     public void delete(long id){
         db=new MySQLConnector();
-        String sqlQuery=String.format("DROP TABLE %s;", tableName);
+        String sqlQuery=String.format("DROP TABLE %s; WHERE id='%d", tableName, id);
         db.executeRequest(sqlQuery);
         db.close();
     }
-//--------- ID
-    public ArrayList<Animal>selectID(){
-        return selectByQuery(String.format("SELECT id FROM %",tableName));
-    }
+
 }
 

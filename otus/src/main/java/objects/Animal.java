@@ -1,12 +1,16 @@
 package objects;
+
+import zoo.data.ColorData;
+
 public class Animal {
 //-  для структурирования получаемых данных из таблицы
     private long id;
-    private String type,name,color;
+    private String type,name;
+    private ColorData color;
     private int weight,age;
 
 //-  на получение из 
-    public Animal( long id, String type, String name, String color, int weight,int age){
+    public Animal( long id, String type, String name, ColorData color, int weight,int age){
         this.id=id;
         this.type=type;
         this.name=name;
@@ -15,7 +19,7 @@ public class Animal {
         this.age=age;
     }
     //- запрос на создание
-    public Animal ( String type, String name, String color, int weight,int age){
+    public Animal ( String type, String name, ColorData color, int weight,int age){
         this.type=type;
         this.name=name;
         this.color=color;
@@ -32,7 +36,7 @@ public class Animal {
     public String getName(){
         return name;
     }
-    public String getColor(){
+    public ColorData getColor(){
         return color;
     }
     public int getWeight(){
@@ -50,7 +54,7 @@ public class Animal {
     public void  setName(String name){
         this.name= name;
     };
-    public void  setColor(String color){
+    public void  setColor(ColorData color){
         this.color= color;
     };
     public void  setWeight(int weight){

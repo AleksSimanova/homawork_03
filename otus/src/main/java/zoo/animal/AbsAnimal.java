@@ -1,25 +1,79 @@
 package zoo.animal;
+import java.util.Scanner;
+
+import com.mysql.cj.xdevapi.Schema.Validation;
+
 import zoo.data.ColorData;
+import zoo.utilit.EnamConvecters;
+import zoo.utilit.Validators;
+
 public  abstract class AbsAnimal {
     protected String name;
     protected int age;
     protected int weight;
     protected ColorData color;
+    protected  String type;
+
+    private EnamConvecters enamConvecters=new EnamConvecters();
+    private Validators validators= new Validators(); 
 //---------------------------------------
-    public void setName(String name){
+    public void setName(Scanner sc){
+        String name="";
+        while (true) {
+            System.out.println("Введите имя животного");
+            name= sc.next();
+            if (validators.isStringChars(name)) {
+                break;   
+            }
+            System.out.println("Введите именя животного состояшее из букв");
+        }
         this.name=name;
     }
-    
-    public void setColor(ColorData color){
-        this.color=color;
-    }
-    public void setAge(int age){
-        this.age=age;
+    public void setName(String newName){
+        this.name=newName;
     }
     
-    public void setWeight(int weight){
-        this.weight=weight;
+    public void setColor(Scanner sc){
+        String colorDataStr="";
+        while (true) {
+            System.out.printf("Выбирете цвет животного из %s \n",enamConvecters.getNamesEnam(ColorData.class,"/"));
+            colorDataStr=sc.next().toUpperCase();
+            if(validators.checkValuesInEnam(ColorData.class,colorDataStr)){
+                break;
+            }
+            System.out.printf("%s не представлен на данной ферме,выберите цвет из представленных в списке \n",colorDataStr);
+            
+        }
+        
+        this.color=ColorData.valueOf(colorDataStr);
     }
+
+    public void setAge(Scanner sc){
+        String ageStr;
+        while (true) {
+            System.out.println("Введите возраст животного");
+            ageStr=sc.next();
+            if (validators.isAgeNimbers(ageStr)&&Integer.parseInt(ageStr)>0){
+                break;
+            }
+            System.out.println("возраст введен не корркутно");
+        }
+        this.age=Integer.parseInt(ageStr);
+    }
+    
+    public void setWeight(Scanner sc){
+        String weightSt;
+        while (true){
+            System.out.println("Введите вес животного");
+            weightSt=sc.next();
+        if (validators.isAgeNimbers(weightSt)&&Integer.parseInt(weightSt)>0){
+            break;
+        }
+        System.out.println("Введите положительное число");
+        }
+        this.weight=Integer.parseInt(weightSt);
+    }
+    
 //-------------------------------------
     public String getName(){
         return name;
@@ -35,6 +89,9 @@ public  abstract class AbsAnimal {
 
     public int getWeight(){
         return weight;
+    }
+    public String getTypa(){
+        return type;
     }
 //-----------------------------------
     public String  say(){
